@@ -1,5 +1,5 @@
 name = "family-menu-api"
-main = "index.ts"
+main = "dist/index.js"
 compatibility_date = "2023-12-01"
 
 [placement]
