@@ -87,7 +87,7 @@ export class AuthService {
     });
 
     if (!user || !(await verifyPassword(input.password, user.password, this.c.env.JWT_SECRET))) {
-      throw new HTTPException(401, { message: '用户名或密码错误' });
+      throw new HTTPException(403, { message: '用户名或密码错误' });
     }
 
     // 生成 token

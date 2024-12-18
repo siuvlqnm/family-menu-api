@@ -103,10 +103,12 @@ export class RecipeService {
     const recipe = await this.db.query.recipes.findFirst({
       where: and(
         eq(recipes.id, id),
-        or(
-          eq(recipes.createdBy, userID),
-          inArray(recipes.familyGroupId, familyGroupIds)
-        )
+        familyGroupIds.length > 0
+          ? or(
+              eq(recipes.createdBy, userID),
+              inArray(recipes.familyGroupId, familyGroupIds)
+            )
+          : eq(recipes.createdBy, userID)
       ),
     });
 
@@ -122,10 +124,12 @@ export class RecipeService {
     let conditions = [];
 
     conditions.push(
-      or(
-        eq(recipes.createdBy, userID),
-        inArray(recipes.familyGroupId, familyGroupIds)
-      )
+      familyGroupIds.length > 0
+        ? or(
+            eq(recipes.createdBy, userID),
+            inArray(recipes.familyGroupId, familyGroupIds)
+          )
+        : eq(recipes.createdBy, userID)
     );
 
     if (category) {
