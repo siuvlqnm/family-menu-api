@@ -66,14 +66,13 @@ menu.get(
 // 查询菜单列表
 menu.get(
   '/',
-  zValidator('query', menuQuerySchema),
   async (c) => {
-    const query = c.req.valid('query');
+    const query = c.req.query();
     const user = await getCurrentUser(c);
     const db = createDb(c.env.DB);
     const menuService = new MenuService(db);
     
-    const result = await menuService.getMenus(query, user);
+    const result = await menuService.getMenus(query as any, user);
     
     return c.json(result);
   }

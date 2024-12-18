@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npx wrangler dev index.ts",
-    "deploy": "npx wrangler deploy index.ts",
+    "dev": "npx wrangler dev src/index.ts",
+    "build": "tsc && cp package*.json dist && npm i --prefix dist --production",
+    "deploy": "npm run build && npx wrangler deploy",
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
     "check": "tsc"

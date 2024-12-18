@@ -1,5 +1,5 @@
 name = "family-menu-api"
-main = "./functions/index.ts"
+main = "index.ts"
 compatibility_date = "2023-12-01"
 
 [placement]
@@ -10,13 +10,21 @@ ADMIN_SALT = "d8e8fca2dc0f896fd7cb4cb0031ba249"
 ADMIN_TOKEN_EXPIRES_HOURS = "1"
 CLIENT_TOKEN_EXPIRES_HOURS = "0.5"
 JWT_SECRET = "2b7e151628aed2a6abf7158809cf4f3c"
+APP_VERSION = "0.1.0"
+ALLOWED_ORIGINS = "http://localhost:3000,https://family-menu.pages.dev"
+NODE_ENV = "development"
+
+[env.development]
+vars = { NODE_ENV = "development" }
+
+[env.production]
+vars = { NODE_ENV = "production" }
+
+[build]
+command = "npm install && npm run build"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "family_menu_db"
 database_id = "58eb1450-31a2-43c4-a342-36abd4ba1f47"
 preview_database_id = "58eb1450-31a2-43c4-a342-36abd4ba1f47"
-
-[build]
-command = "npm install && npm run build"
-watch_dir = "functions"
