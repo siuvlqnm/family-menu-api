@@ -1,6 +1,7 @@
-name = "family-menu-api"
+name = "api-family-menu"
 main = "dist/index.js"
 compatibility_date = "2023-12-01"
+type = "module"
 
 [placement]
 mode = "smart"
