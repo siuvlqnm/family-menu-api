@@ -45,12 +45,12 @@ app.get('/', (c) => {
 });
 
 // 认证路由
-app.route('/auth', authRouter);
+app.route('/v1/auth', authRouter);
 
 // 需要认证的路由
 const protectedRoutes = app.use('*', authMiddleware);
-protectedRoutes.route('/menus', menuRouter);
-protectedRoutes.route('/recipes', recipeRouter);
+protectedRoutes.route('/v1/menus', menuRouter);
+protectedRoutes.route('/v1/recipes', recipeRouter);
 
 // 404 处理
 app.notFound((c) => {
