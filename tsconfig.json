@@ -17,6 +17,6 @@
     "strict": true, // 启用所有严格类型检查选项
     "skipLibCheck": true // 跳过库文件的类型检查，加快编译速度
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*.ts", "drizzle.config.ts"],
+  "exclude": ["node_modules", "dist", "drizzle"]
 }

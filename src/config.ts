@@ -1,20 +1,20 @@
 import { Context } from 'hono';
 import { D1Database } from '@cloudflare/workers-types';
 
-interface Config {
-  cors: {
-    origins: string[]
-    credentials: boolean
-    allowMethods: string[]
-    allowHeaders: string[]
-    exposeHeaders: string[]
-  }
-  rateLimit: {
-    windowMs: number
-    maxRequests: number
-  }
-  version: string
-}
+// interface Config {
+//   cors: {
+//     origins: string[]
+//     credentials: boolean
+//     allowMethods: string[]
+//     allowHeaders: string[]
+//     exposeHeaders: string[]
+//   }
+//   rateLimit: {
+//     windowMs: number
+//     maxRequests: number
+//   }
+//   version: string
+// }
 
 export type Bindings = {
   JWT_SECRET: string;
@@ -23,6 +23,7 @@ export type Bindings = {
   DB: D1Database;
   ALLOWED_ORIGINS: string;
   APP_VERSION: string;
+  START_TIME: number;
 }
 
 export const getConfig = (c: Context<{ Bindings: Bindings }>) => ({

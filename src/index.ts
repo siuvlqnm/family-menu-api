@@ -1,7 +1,7 @@
-import { Hono, Context } from 'hono';
+import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { HTTPException } from 'hono/http-exception';
-import { handle } from 'hono/cloudflare-pages'
+// import { handle } from 'hono/cloudflare-pages'
 import { Bindings } from './config';
 import { authRouter } from './routes/auth';
 import { menuRouter } from './routes/menus';
@@ -33,11 +33,12 @@ app.use('*', errorHandler());
 // 健康检查
 app.get('/', (c) => {
   const config = getConfig(c);
-  const uptime = process.uptime();
+  const startTime = Date.now() - (c.env.START_TIME || Date.now()); // 将开始时间从环境变量中获取，如果不存在则使用当前时间。
+  const uptime = Math.floor(startTime / 1000); // 计算秒数。
   return c.json({
     status: 'OK',
     version: config.config.version,
-    uptime: Math.floor(uptime),
+    uptime: uptime,
     timestamp: new Date().toISOString(),
     environment: c.env.NODE_ENV || 'development'
   });
@@ -57,4 +58,4 @@ app.notFound((c) => {
 });
 
 // 导出 Cloudflare Pages Functions 处理函数
-export const onRequest = handle(app)
+export default app;

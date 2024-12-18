@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "npx wrangler dev src/index.ts",
-    "build": "tsc && cp package*.json dist && npm i --prefix dist --production",
+    "build": "tsc && cp package*.json dist && npm i --prefix dist --dev",
     "deploy": "npm run build && npx wrangler deploy",
     "generate": "drizzle-kit generate",
     "push": "drizzle-kit push",
@@ -23,6 +23,6 @@
     "@types/node": "^20.10.4",
     "drizzle-kit": "^0.20.6",
     "typescript": "^5.3.3",
-    "wrangler": "^3.19.0"
+    "wrangler": "^3.97.0"
   }
 }

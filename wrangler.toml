@@ -1,10 +1,10 @@
 name = "api-family-menu"
-main = "dist/index.js"
+main = "dist/src/index.js"
 compatibility_date = "2023-12-01"
-type = "module"
 
 [placement]
 mode = "smart"
+type = "module"
 
 [vars]
 ADMIN_SALT = "d8e8fca2dc0f896fd7cb4cb0031ba249"
@@ -14,15 +14,6 @@ JWT_SECRET = "2b7e151628aed2a6abf7158809cf4f3c"
 APP_VERSION = "0.1.0"
 ALLOWED_ORIGINS = "http://localhost:3000,https://family-menu.pages.dev"
 NODE_ENV = "development"
-
-[env.development]
-vars = { NODE_ENV = "development" }
-
-[env.production]
-vars = { NODE_ENV = "production" }
-
-[build]
-command = "npm install && npm run build"
 
 [[d1_databases]]
 binding = "DB"
