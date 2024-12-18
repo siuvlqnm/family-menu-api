@@ -1,0 +1,73 @@
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { shareRecipeSchema, shareManyRecipesSchema } from '../types/recipe-share';
+import { RecipeShareService } from '../services/recipe-share.ts.dev';
+import { createDb } from '../db';
+import { getCurrentUser } from '../middleware/auth';
+import { Bindings } from '../config';
+
+const recipeShare = new Hono<{ Bindings: Bindings }>();
+
+// 共享食谱到家庭组
+recipeShare.post(
+  '/share',
+  zValidator('json', shareRecipeSchema),
+  async (c) => {
+    const input = c.req.valid('json');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const recipeShareService = new RecipeShareService(db);
+    
+    await recipeShareService.shareRecipe(input, user);
+    
+    return c.json({ success: true }, 201);
+  }
+);
+
+// 批量共享食谱到家庭组
+recipeShare.post(
+  '/share-many',
+  zValidator('json', shareManyRecipesSchema),
+  async (c) => {
+    const input = c.req.valid('json');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const recipeShareService = new RecipeShareService(db);
+    
+    await recipeShareService.shareManyRecipes(input, user);
+    
+    return c.json({ success: true }, 201);
+  }
+);
+
+// 获取食谱的共享记录
+recipeShare.get(
+  '/:recipeId/shares',
+  async (c) => {
+    const recipeId = c.req.param('recipeId');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const recipeShareService = new RecipeShareService(db);
+    
+    const shares = await recipeShareService.getRecipeShares(recipeId, user);
+    
+    return c.json(shares);
+  }
+);
+
+// 获取家庭组接收的共享食谱
+recipeShare.get(
+  '/family-group/:familyGroupId/shared',
+  async (c) => {
+    const familyGroupId = c.req.param('familyGroupId');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const recipeShareService = new RecipeShareService(db);
+    
+    const recipes = await recipeShareService.getSharedRecipes(familyGroupId, user);
+    
+    return c.json(recipes);
+  }
+);
+
+export { recipeShare as recipeShareRouter };

@@ -1,0 +1,27 @@
+{
+  "name": "family-menu-functions",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx wrangler dev index.ts",
+    "deploy": "npx wrangler deploy index.ts",
+    "generate": "drizzle-kit generate",
+    "push": "drizzle-kit push",
+    "check": "tsc"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.1.11",
+    "drizzle-orm": "^0.29.1",
+    "hono": "^3.11.4",
+    "jose": "^5.1.3",
+    "nanoid": "^5.0.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231121.0",
+    "@types/node": "^20.10.4",
+    "drizzle-kit": "^0.20.6",
+    "typescript": "^5.3.3",
+    "wrangler": "^3.19.0"
+  }
+}

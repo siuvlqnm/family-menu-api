@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "ES2022",
+    "lib": ["ES2021", "DOM"], // 添加DOM库声明，支持浏览器API
+    "moduleResolution": "node",
+    "types": ["@cloudflare/workers-types"], // 指定Cloudflare Workers类型定义
+    "resolveJsonModule": true, // 允许导入JSON模块
+    "allowJs": false, // 不编译JavaScript文件
+    "checkJs": false, // 不检查JavaScript文件类型
+    "noEmit": true, // 不生成编译后的文件，仅做类型检查
+    "isolatedModules": true, // 将每个文件视为单独的模块
+    "allowSyntheticDefaultImports": true, // 允许合成默认导入
+    "esModuleInterop": true, // 启用ES模块互操作性
+    "forceConsistentCasingInFileNames": true, // 强制文件名大小写一致
+    "strict": true, // 启用所有严格类型检查选项
+    "skipLibCheck": true // 跳过库文件的类型检查，加快编译速度
+  }
+}

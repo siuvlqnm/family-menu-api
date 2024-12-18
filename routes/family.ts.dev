@@ -1,0 +1,128 @@
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import {
+  addMemberSchema,
+  createFamilyGroupSchema,
+  updateFamilyGroupSchema,
+  updateMemberRoleSchema,
+} from '../types/family';
+import { FamilyService } from '../services/family.ts.dev';
+import { createDb } from '../db';
+import { getCurrentUser } from '../middleware/auth';
+import { Bindings } from '../config';
+
+const family = new Hono<{ Bindings: Bindings }>();
+
+// 创建家庭组
+family.post(
+  '/',
+  zValidator('json', createFamilyGroupSchema),
+  async (c) => {
+    const input = c.req.valid('json');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    const group = await familyService.createFamilyGroup(input, user);
+    
+    return c.json(group, 201);
+  }
+);
+
+// 更新家庭组
+family.put(
+  '/:id',
+  zValidator('json', updateFamilyGroupSchema),
+  async (c) => {
+    const id = c.req.param('id');
+    const input = c.req.valid('json');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    const group = await familyService.updateFamilyGroup(id, input, user);
+    
+    return c.json(group);
+  }
+);
+
+// 获取家庭组详情
+family.get(
+  '/:id',
+  async (c) => {
+    const id = c.req.param('id');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    const group = await familyService.getFamilyGroup(id, user);
+    
+    return c.json(group);
+  }
+);
+
+// 获取用户的所有家庭组
+family.get(
+  '/',
+  async (c) => {
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    const groups = await familyService.getUserFamilyGroups(user);
+    
+    return c.json(groups);
+  }
+);
+
+// 通过邀请码加入家庭组
+family.post(
+  '/join',
+  zValidator('json', addMemberSchema),
+  async (c) => {
+    const input = c.req.valid('json');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    const group = await familyService.joinFamilyGroup(input.inviteCode, user);
+    
+    return c.json(group);
+  }
+);
+
+// 更新成员角色
+family.put(
+  '/:id/members/:memberId/role',
+  zValidator('json', updateMemberRoleSchema),
+  async (c) => {
+    const groupId = c.req.param('id');
+    const memberId = c.req.param('memberId');
+    const input = c.req.valid('json');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    const member = await familyService.updateMemberRole(groupId, memberId, input, user);
+    
+    return c.json(member);
+  }
+);
+
+// 移除成员
+family.delete(
+  '/:id/members/:memberId',
+  async (c) => {
+    const groupId = c.req.param('id');
+    const memberId = c.req.param('memberId');
+    const user = await getCurrentUser(c);
+    const db = createDb(c.env.DB);
+    const familyService = new FamilyService(db);
+    
+    await familyService.removeMember(groupId, memberId, user);
+    
+    return c.json({ success: true });
+  }
+);
+
+export { family as familyRouter };
