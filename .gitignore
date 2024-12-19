@@ -20,3 +20,6 @@ dist
 
 # drizzle
 drizzle
+
+# wrangler
+wrangler.toml

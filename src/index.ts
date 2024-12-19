@@ -6,6 +6,7 @@ import { Bindings } from './config';
 import { authRouter } from './routes/auth';
 import { menuRouter } from './routes/menus';
 import { recipeRouter } from './routes/recipes';
+import { sharedRouter } from './routes/shared';
 import { authMiddleware } from './middleware/auth';
 import { errorHandler } from './middleware/error';
 import { rateLimit } from './middleware/rate-limit';
@@ -43,6 +44,9 @@ app.get('/', (c) => {
     environment: c.env.NODE_ENV || 'development'
   });
 });
+
+// public routes
+app.route('/v1/shared', sharedRouter);  
 
 // 认证路由
 app.route('/v1/auth', authRouter);
