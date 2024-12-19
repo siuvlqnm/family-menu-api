@@ -1,0 +1,23 @@
+name = "api-family-menu"
+main = "dist/src/index.js"
+compatibility_date = "2023-12-01"
+
+[placement]
+mode = "smart"
+type = "module"
+
+[vars]
+ADMIN_SALT = "d8e8fca2dc0f896fd7cb4cb0031ba249"
+ADMIN_TOKEN_EXPIRES_HOURS = "1"
+CLIENT_TOKEN_EXPIRES_HOURS = "0.5"
+JWT_SECRET = "2b7e151628aed2a6abf7158809cf4f3c"
+APP_VERSION = "0.1.0"
+ALLOWED_ORIGINS = "http://localhost:3000,https://family-menu.pages.dev"
+NODE_ENV = "development"
+CORS_ORIGINS = "http://localhost:3000,https://family-menu.pages.dev"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "family_menu_db"
+database_id = "d0071e20-f487-48fc-a5f4-150057995d48"
+preview_database_id = "58eb1450-31a2-43c4-a342-36abd4ba1f47"
